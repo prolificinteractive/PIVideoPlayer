@@ -1,0 +1,14 @@
+PODS:
+  - PIVideoPlayer (0.1.0)
+
+DEPENDENCIES:
+  - PIVideoPlayer (from `../`)
+
+EXTERNAL SOURCES:
+  PIVideoPlayer:
+    :path: ../
+
+SPEC CHECKSUMS:
+  PIVideoPlayer: ed6b7a93865cad957349f8b4fc1497842e0e2217
+
+COCOAPODS: 0.35.0
