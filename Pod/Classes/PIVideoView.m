@@ -57,6 +57,11 @@ static const NSString *itemStatusContext;
     if (self = [super init]){
         self.fileURL = url;
         self.pausedTime = kCMTimeZero;
+
+        // Prevents the video from stopping any background music that the user may be playing.
+        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient
+                                         withOptions:AVAudioSessionCategoryOptionMixWithOthers
+                                               error:nil];
     }
 
     return self;
@@ -98,11 +103,6 @@ static const NSString *itemStatusContext;
                                                NSStringFromClass([self class])]
                                      userInfo:nil];
     }
-
-     // Prevents the video from stopping any background music that the user may be playing.
-     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryAmbient
-                                      withOptions:AVAudioSessionCategoryOptionMixWithOthers
-                                            error:nil];
 
     // If the caller has not yet loaded the video, we will load the video first and then start playing the video immediately after. Otherwise, just start playing the video.
     if (!self.videoLoaded && !self.videoLoading) {
