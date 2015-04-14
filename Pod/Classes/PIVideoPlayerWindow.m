@@ -63,10 +63,9 @@
     [videoView play];
 }
 
-#pragma mark - Protocols
-#pragma mark <SCVideoViewDelegate>
+#pragma mark - Private
 
-- (void)videoViewDidFinishPlayingVideo:(PIVideoView *)view
+- (void)dismissWindow
 {
     // Fade out the video view and alert the delegate for clean-up.
     [UIView animateWithDuration:0.3f
@@ -78,6 +77,20 @@
                              [self.videoPlayerWindowDelegate videoPlayerWindowDidFinishPlaying:self];
                          }
                      }];
+}
+
+#pragma mark - Protocols
+#pragma mark <SCVideoViewDelegate>
+
+- (void)videoViewDidFinishPlayingVideo:(PIVideoView *)view
+{
+    [self dismissWindow];
+}
+
+- (void)videoViewDidFailToLoadVideo:(PIVideoView *)view error:(NSError *)error
+{
+    NSLog(@"Failed to load video due to reason: %@", error.localizedDescription);
+    [self dismissWindow];
 }
 
 @end
