@@ -149,6 +149,11 @@ static const NSString *itemStatusContext;
 {
     NSAssert(self.videoLoaded, @"Call to beginPlayingLoadedVideoFile when no video was loaded.");
     [self registerForAVPlayerNotifications];
+	
+    if (self.shouldLoopVideo) {
+        self.player.actionAtItemEnd = AVPlayerActionAtItemEndNone;
+    }
+	
     [self.player play];
 
     if ([self.delegate respondsToSelector:@selector(videoViewDidBeginPlayingVideo:)]) {
@@ -217,7 +222,10 @@ static const NSString *itemStatusContext;
 
 - (void)videoFinishedPlaying:(id)sender
 {
-    if ([self.delegate respondsToSelector:@selector(videoViewDidFinishPlayingVideo:)]){
+    if (self.shouldLoopVideo) {
+        AVPlayerItem *playerItem = [sender object];
+        [playerItem seekToTime:kCMTimeZero];
+    } else if ([self.delegate respondsToSelector:@selector(videoViewDidFinishPlayingVideo:)]) {
         [self.delegate videoViewDidFinishPlayingVideo:self];
     }
 }

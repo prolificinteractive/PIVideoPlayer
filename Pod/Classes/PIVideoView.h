@@ -76,6 +76,11 @@
 @property (nonatomic, strong) NSURL *fileURL;
 
 /**
+ *	If it's on, it'll loop the video continously and videoViewDidFinishPlayingVideo delegate method won't be called.
+ */
+@property (nonatomic, assign) BOOL shouldLoopVideo;
+
+/**
  *  The video view delegate.
  */
 @property (nonatomic, weak) id<PIVideoViewDelegate> delegate;
