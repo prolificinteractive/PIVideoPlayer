@@ -56,11 +56,15 @@
 
 - (void)playVideoWithURL:(NSURL *)URL
 {
-    PIVideoView *videoView = [[PIVideoView alloc] initWithURL:URL];
-    videoView.delegate = self;
-    [self addSubview:videoView];
-
-    [videoView play];
+    if (!self.videoView) {
+        self.videoView = [[PIVideoView alloc] initWithURL:URL];
+        self.videoView.delegate = self;
+        self.videoView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        [self addSubview:self.videoView];
+    }
+    
+    [self.videoView play];
 }
 
 #pragma mark - Private

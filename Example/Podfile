@@ -1,11 +1,11 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
 target 'PIVideoPlayer', :exclusive => true do
-  pod "PIVideoPlayer", :path => "../"
+  pod "PIVideoPlayer"
 end
 
 target 'Tests', :exclusive => true do
-  pod "PIVideoPlayer", :path => "../"
+  pod "PIVideoPlayer"
 
   
 end

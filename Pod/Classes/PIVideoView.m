@@ -215,10 +215,12 @@ static const NSString *itemStatusContext;
 
 - (void)onVideoLoaded
 {
-    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    self.playerLayer.frame = self.bounds;
-    [self.layer addSublayer:self.playerLayer];
-    
+    if (!self.playerLayer) {
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        self.playerLayer.frame = self.bounds;
+        [self.layer addSublayer:self.playerLayer];
+    }
+	
     if ([self.delegate respondsToSelector:@selector(videoViewDidLoadVideo:)]) {
         [self.delegate videoViewDidLoadVideo:self];
     }

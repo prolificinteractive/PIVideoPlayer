@@ -74,4 +74,7 @@
  */
 - (void)playVideoWithURL:(NSURL *)URL;
 
+// Video view
+@property (nonatomic, strong) PIVideoView *videoView;
+
 @end
