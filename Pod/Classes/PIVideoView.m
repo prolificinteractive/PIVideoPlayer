@@ -31,6 +31,8 @@ static const NSString *itemStatusContext;
 @property (nonatomic, assign) BOOL videoLoading;
 @property (nonatomic, assign) BOOL videoLoaded;
 
+@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+
 // Holds the timestamp of the video when the application enters the background. Once it re-enters the foreground, we seek to this timestamp and resume playing the video. This prevents the video from appearing frozen on relaunch or restarting from the beginning.
 @property (nonatomic, assign) CMTime pausedTime;
 
@@ -83,6 +85,14 @@ static const NSString *itemStatusContext;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self onVideoLoaded];
         });
+    }
+}
+
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+    [super layoutSublayersOfLayer:layer];
+    if (self.videoLoaded) {
+        self.playerLayer.frame = self.bounds;
     }
 }
 
@@ -205,15 +215,15 @@ static const NSString *itemStatusContext;
 
 - (void)onVideoLoaded
 {
-    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    playerLayer.frame = self.bounds;
-
-    [self.layer addSublayer:playerLayer];
-
+    if (!self.playerLayer) {
+        self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
+        self.playerLayer.frame = self.bounds;
+        [self.layer addSublayer:self.playerLayer];
+    }
+	
     if ([self.delegate respondsToSelector:@selector(videoViewDidLoadVideo:)]) {
         [self.delegate videoViewDidLoadVideo:self];
     }
-
     // If the user called -play before -loadVideo, this BOOL will be YES, and the video should start playing automatically.
     if (self.playVideoOnFinishedLoading) {
         [self beginPlayingLoadedVideoFile];
